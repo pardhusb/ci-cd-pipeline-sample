@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="86a9e0b4-e60c-49c6-a786-ce96899686d0" >
+		<http:listener-connection host="0.0.0.0" port="8082" />
+	</http:listener-config>
+	<flow name="ci-cd-pipeline-sampleFlow" doc:id="34b87a55-1070-4484-96f4-13cfa4f4d70a" >
+		<http:listener doc:name="Listener" doc:id="85f3bd21-6772-4483-a1b7-defd30f70717" config-ref="HTTP_Listener_config" path="/migrate"/>
+		<set-payload value="migrate code by ci-cd pipeline" doc:name="Set Payload" doc:id="968822a7-77d3-4e80-9390-217e8147bf9f" />
+		<ee:transform doc:name="Transform Message" doc:id="247c2c4b-a1e1-4c93-821f-02fd89e54a6d" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
